@@ -5,6 +5,7 @@ pipeline {
             args '--privileged'  // DinD needs privileged mode
         }
     }
+    
     options {
         skipDefaultCheckout(true)
     }
