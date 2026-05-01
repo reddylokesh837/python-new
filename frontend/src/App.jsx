@@ -12,7 +12,7 @@ function App() {
   return (
     <div>
       <h1>Fullstack Python App by Lokesh Reddy Vakada</h1>
-      <p>{msg}</p>
+      <h1>{msg}</h1>
     </div>
   );
 }
