@@ -79,7 +79,8 @@ pipeline {
     }
     post {
         success {
-            echo "✅ Deployment successful: ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}"
+            echo "✅ Deployment successful: ${REGISTRY}/pythonlabs-backend:${BUILD_NUMBER}"
+            echo "✅ Deployment successful: ${REGISTRY}/pythonlabs-frontend:${BUILD_NUMBER}"
         }
         failure {
             echo "❌ Pipeline failed. Check logs."
