@@ -25,6 +25,7 @@ pipeline {
         }
 
 
+
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} ."
