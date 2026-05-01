@@ -49,7 +49,7 @@ pipeline {
 
         stage('Apply Manifests') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-cred']) {
+                withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:49889']) {
                     sh """
                     kubectl apply -f k8s/backend-deployment.yaml
                     kubectl apply -f k8s/backend-service.yaml
