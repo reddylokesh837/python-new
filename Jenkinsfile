@@ -49,7 +49,7 @@ pipeline {
 
         stage('Apply Manifests') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:49889']) {
+                withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:62618']) {
                     sh """
                     kubectl apply -f k8s/backend-deployment.yaml
                     kubectl apply -f k8s/backend-service.yaml
@@ -66,7 +66,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:49889']) {
+                withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:62618']) {
                     sh """
                     kubectl set image deployment/backend backend=${REGISTRY}/pythonlabs-backend:${BUILD_NUMBER} -n default
                     kubectl set image deployment/frontend frontend=${REGISTRY}/pythonlabs-frontend:${BUILD_NUMBER} -n default
