@@ -7,9 +7,11 @@ pipeline {
         KUBECONFIG = credentials('kubeconfig-cred')   // kubeconfig creds
         GITHUB = credentials('github-cred')           // GitHub PAT
     }
+
     triggers {
         githubPush()   // Trigger on GitHub webhook push
     }
+    
     stages {
         stage('Checkout') {
             steps {
