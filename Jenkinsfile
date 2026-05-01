@@ -65,7 +65,7 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                withKubeConfig([credentialsId: 'kubeconfig-cred']) {
+                withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:49889']) {
                     sh """
                     kubectl set image deployment/backend backend=${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} -n default
                     kubectl set image deployment/frontend frontend=${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} -n default
