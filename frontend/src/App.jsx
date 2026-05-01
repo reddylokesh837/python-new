@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const [msg, setMsg] = useState("");
@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div>
-      <h1>Fullstack Python App</h1>
+      <h1>Fullstack Python App by Lokesh Reddy Vakada</h1>
       <p>{msg}</p>
     </div>
   );
