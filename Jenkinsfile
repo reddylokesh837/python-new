@@ -1,14 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'docker:dind'
-            args '--privileged'  // DinD needs privileged mode
-        }
-    }
-    
-    options {
-        skipDefaultCheckout(true)
-    }
+    agent any
     environment {
         REGISTRY = "docker.io/reddylokesh837"
         IMAGE_NAME = "pythonlabs"
