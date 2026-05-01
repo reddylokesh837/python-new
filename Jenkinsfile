@@ -19,24 +19,26 @@ pipeline {
             }
         }
 
+
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}")
-                }
+                sh "docker build -t ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} ."
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB) {
-                        docker.image("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}").push()
-                        docker.image("${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}").push("latest")
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh """
+                    echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+                    docker push ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker tag ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} ${REGISTRY}/${IMAGE_NAME}:latest
+                    docker push ${REGISTRY}/${IMAGE_NAME}:latest
+                    """
                 }
             }
         }
+
 
         stage('Deploy to Kubernetes') {
             steps {
