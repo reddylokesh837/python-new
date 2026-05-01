@@ -58,7 +58,6 @@ pipeline {
                     kubectl apply -f k8s/frontend-service.yaml
                     kubectl apply -f k8s/gateway.yaml
                     kubectl apply -f k8s/httproutes.yaml
-                    kubectl apply -f k8s/jenkins-rbac.yaml
                     """
                 }
             }
