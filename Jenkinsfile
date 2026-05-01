@@ -68,8 +68,8 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:49889']) {
                     sh """
-                    kubectl set image deployment/backend backend=${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} -n default
-                    kubectl set image deployment/frontend frontend=${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} -n default
+                    kubectl set image deployment/backend backend=${REGISTRY}/pythonlabs-backend:${BUILD_NUMBER} -n default
+                    kubectl set image deployment/frontend frontend=${REGISTRY}/pythonlabs-frontend:${BUILD_NUMBER} -n default
                     kubectl rollout status deployment/backend -n default
                     kubectl rollout status deployment/frontend -n default
                     """
