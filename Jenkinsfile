@@ -21,20 +21,43 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Backend Image') {
             steps {
-                sh "docker build -t ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} ."
+                sh "docker build -t ${REGISTRY}/pythonlabs-backend:${BUILD_NUMBER} -f docker/Dockerfile.backend ."
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                sh "docker build -t ${REGISTRY}/pythonlabs-frontend:${BUILD_NUMBER} -f docker/Dockerfile.frontend ."
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred',
+                                                usernameVariable: 'DOCKER_USER',
+                                                passwordVariable: 'DOCKER_PASS')]) {
                     sh """
                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    docker push ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}
-                    docker tag ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER} ${REGISTRY}/${IMAGE_NAME}:latest
-                    docker push ${REGISTRY}/${IMAGE_NAME}:latest
+                    docker push ${REGISTRY}/pythonlabs-backend:${BUILD_NUMBER}
+                    docker push ${REGISTRY}/pythonlabs-frontend:${BUILD_NUMBER}
+                    """
+                }
+            }
+        }
+
+        stage('Apply Manifests') {
+            steps {
+                withKubeConfig([credentialsId: 'kubeconfig-cred']) {
+                    sh """
+                    kubectl apply -f k8s/backend-deployment.yaml
+                    kubectl apply -f k8s/backend-service.yaml
+                    kubectl apply -f k8s/frontend-deployment.yaml
+                    kubectl apply -f k8s/frontend-service.yaml
+                    kubectl apply -f k8s/gateway.yaml
+                    kubectl apply -f k8s/httproutes.yaml
+                    kubectl apply -f k8s/jenkins-rbac.yaml
                     """
                 }
             }
