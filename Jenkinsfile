@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        skipDefaultCheckout(true)
+    }
     environment {
         REGISTRY = "docker.io/reddylokesh837"
         IMAGE_NAME = "pythonlabs"
