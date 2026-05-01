@@ -58,6 +58,7 @@ pipeline {
                     kubectl apply -f k8s/gateway.yaml
                     kubectl apply -f k8s/httproutes.yaml
                     kubectl apply -f k8s/jenkins-rbac.yaml
+                    kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.0.0"
                     """
                 }
             }
