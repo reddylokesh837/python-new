@@ -16,4 +16,4 @@ spec:
         - name: frontend
           image: docker.io/reddylokesh837/pythonlabs-frontend:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 80
