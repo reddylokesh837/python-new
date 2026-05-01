@@ -51,6 +51,7 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:62618']) {
                     sh """
+                    kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.0.0"
                     kubectl apply -f k8s/backend-deployment.yaml
                     kubectl apply -f k8s/backend-service.yaml
                     kubectl apply -f k8s/frontend-deployment.yaml
@@ -58,7 +59,6 @@ pipeline {
                     kubectl apply -f k8s/gateway.yaml
                     kubectl apply -f k8s/httproutes.yaml
                     kubectl apply -f k8s/jenkins-rbac.yaml
-                    kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.0.0"
                     """
                 }
             }
