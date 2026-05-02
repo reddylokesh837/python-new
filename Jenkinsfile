@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         REGISTRY = "docker.io/reddylokesh837"
         IMAGE_NAME = "pythonlabs"
@@ -52,7 +52,6 @@ pipeline {
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig-cred', serverUrl: 'https://127.0.0.1:62618']) {
                     sh """
-                    kubectl apply -k "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.0.0"
                     kubectl apply -f k8s/backend-deployment.yaml
                     kubectl apply -f k8s/backend-service.yaml
                     kubectl apply -f k8s/frontend-deployment.yaml
