@@ -1,5 +1,6 @@
 pipeline {
     agent any
+    
     environment {
         REGISTRY = "docker.io/reddylokesh837"
         IMAGE_NAME = "pythonlabs"
